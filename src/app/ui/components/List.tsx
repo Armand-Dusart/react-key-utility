@@ -1,7 +1,6 @@
 "use client";
 
-import { faker } from "@faker-js/faker";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useId, useMemo } from "react";
 
 import styles from "./List.module.css";
 
@@ -14,27 +13,8 @@ function getIdFromEvent(event: React.DragEvent<HTMLDivElement>) {
     return null;
   }
 }
-const colors = [
-  "#f4b8e4",
-  "#ca9ee6",
-  "#ea999c",
-  "#e78284",
-  "#99d1db",
-  "#a6d189",
-  "#e5c890",
-  "#85c1dc",
-  "#b7bdf8",
-  "#94e2d5",
-] as const;
 
-const data = Array.from({ length: 10 }, (_, i) => ({
-  id: i,
-  title: faker.lorem.words(),
-  description: faker.lorem.paragraph(),
-  color: colors[i % colors.length],
-}));
-
-export default function List() {
+export default function List({ data }: { data: Item[] }) {
   const [list, setList] = React.useState(data);
   const draggedId = React.useRef<number | null>(null);
 
@@ -61,8 +41,10 @@ export default function List() {
         );
         const targetIndex = newList.findIndex((item) => item.id === targetId);
 
-        const [draggedItem] = newList.splice(draggedIndex, 1);
-        newList.splice(targetIndex, 0, draggedItem);
+        const temps = newList[draggedIndex];
+        newList[draggedIndex] = newList[targetIndex];
+        newList[targetIndex] = temps;
+
         return newList;
       });
     },
@@ -77,7 +59,7 @@ export default function List() {
   //tester avec key === index puis key === id
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {list.map((item) => (
+      {list.map((item, index) => (
         <ItemRender
           key={item.id}
           item={item}
@@ -98,6 +80,8 @@ interface Props {
 }
 
 function ItemRender({ item, ...props }: Readonly<Props>) {
+  const id = useId();
+
   const ref = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -106,15 +90,21 @@ function ItemRender({ item, ...props }: Readonly<Props>) {
       return;
     }
 
-    doc.animate(
-      [{ outlineColor: "#d20f39" }, { outlineColor: "transparent" }],
-      {
-        duration: 300,
-        easing: "cubic-bezier(0.4, 0, 0.2, 1)",
-        iterations: 2,
-      }
-    );
-  }, [item.id]);
+    const timeout = setTimeout(() => {
+      doc.animate(
+        [{ outlineColor: "#d20f39" }, { outlineColor: "transparent" }],
+        {
+          duration: 300,
+          easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+          iterations: 2,
+        }
+      );
+    }, 500);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [item.title]);
 
   return (
     <div
@@ -128,11 +118,19 @@ function ItemRender({ item, ...props }: Readonly<Props>) {
       {...props}
     >
       <div>
-        <div className="font-bold text-md text-base-content leading-tight mb-2 text-pretty">
-          {item.title}
+        <div className="text-right"></div>
+        <div className="text-base-content mb-2 gap-2 text-pretty flex items-start">
+          <span className="font-bold text-md leading-tight grow">
+            {item.title}
+          </span>
+          <span className="rounded bg-base-100 text-base-content p-1 shadow">
+            {id}
+          </span>
         </div>
         <div className="text-base-content text-sm">{item.description}</div>
       </div>
     </div>
   );
 }
+
+// const ItemRenderMemo = React.memo(ItemRender);

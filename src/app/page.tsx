@@ -1,6 +1,27 @@
 import List from "./ui/components/List";
+import { faker } from "@faker-js/faker";
 
 export default function Home() {
+  const colors = [
+    "#f4b8e4",
+    "#ca9ee6",
+    "#ea999c",
+    "#e78284",
+    "#99d1db",
+    "#a6d189",
+    "#e5c890",
+    "#85c1dc",
+    "#b7bdf8",
+    "#94e2d5",
+  ] as const;
+
+  const data = Array.from({ length: 10 }, (_, i) => ({
+    id: i,
+    title: faker.lorem.words(),
+    description: faker.lorem.paragraph(),
+    color: colors[i % colors.length],
+  }));
+
   return (
     <div className={"p-4 w-full h-full"}>
       <div className={"max-w-5xl mx-auto relative"}>
@@ -37,7 +58,7 @@ export default function Home() {
           </svg>
         </div>
         <div className="relative z-10 flex justify-between">
-          <List />
+          <List data={data} />
         </div>
       </div>
     </div>

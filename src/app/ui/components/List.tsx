@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useId, useMemo } from "react";
+import React, { useCallback, useEffect, useId } from "react";
 
 import styles from "./List.module.css";
 
@@ -58,8 +58,8 @@ export default function List({ data }: { data: Item[] }) {
 
   //tester avec key === index puis key === id
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {list.map((item, index) => (
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {list.map((item) => (
         <ItemRender
           key={item.id}
           item={item}

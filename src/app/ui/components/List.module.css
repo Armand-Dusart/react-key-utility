@@ -1,12 +1,13 @@
 .item {
-  @apply p-4 rounded-md shadow gap-3 bg-base-200;
+  @apply p-4 rounded-md shadow gap-3;
   display: flex;
   flex-direction: column;
   cursor: grab;
   user-select: none;
-  height: 250px;
+  height: 225px;
   outline-style: solid;
   outline-width: 0.25rem;
   outline-offset: 0.25rem;
   outline-color: transparent;
+  background-color: var(--color);
 }

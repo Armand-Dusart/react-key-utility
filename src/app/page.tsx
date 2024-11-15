@@ -4,10 +4,7 @@ export default function Home() {
   return (
     <div className={"p-4 w-full h-full"}>
       <div className={"max-w-5xl mx-auto relative"}>
-        <div className="text-base-content text-3xl z-10">
-          <span>Disclaimer: ...</span>
-        </div>
-        <div className="absolute top-24 -right-24 pointer-events-none drop-shadow-lg">
+        <div className="absolute bottom-12 right-0 pointer-events-none drop-shadow-lg">
           <svg
             width="200"
             height="200"
@@ -39,7 +36,7 @@ export default function Home() {
             </defs>
           </svg>
         </div>
-        <div className="relative z-10 flex mt-12 justify-between">
+        <div className="relative z-10 flex justify-between">
           <List />
         </div>
       </div>

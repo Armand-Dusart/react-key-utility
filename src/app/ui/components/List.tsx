@@ -1,7 +1,6 @@
 "use client";
 
 import { faker } from "@faker-js/faker";
-import Image from "next/image";
 import React, { useCallback, useEffect } from "react";
 
 import styles from "./List.module.css";
@@ -15,12 +14,24 @@ function getIdFromEvent(event: React.DragEvent<HTMLDivElement>) {
     return null;
   }
 }
+const colors = [
+  "#f4b8e4",
+  "#ca9ee6",
+  "#ea999c",
+  "#e78284",
+  "#99d1db",
+  "#a6d189",
+  "#e5c890",
+  "#85c1dc",
+  "#b7bdf8",
+  "#94e2d5",
+] as const;
 
 const data = Array.from({ length: 10 }, (_, i) => ({
   id: i,
   title: faker.lorem.words(),
   description: faker.lorem.paragraph(),
-  image: faker.image.urlPicsumPhotos(),
+  color: colors[i % colors.length],
 }));
 
 export default function List() {
@@ -96,11 +107,11 @@ function ItemRender({ item, ...props }: Readonly<Props>) {
     }
 
     doc.animate(
-      [{ outlineColor: "oklch(70% 0.1 45)" }, { outlineColor: "transparent" }],
+      [{ outlineColor: "#d20f39" }, { outlineColor: "transparent" }],
       {
-        duration: 1000,
+        duration: 300,
         easing: "cubic-bezier(0.4, 0, 0.2, 1)",
-        iterations: 1,
+        iterations: 2,
       }
     );
   }, [item.id]);
@@ -111,19 +122,11 @@ function ItemRender({ item, ...props }: Readonly<Props>) {
       className={styles.item}
       draggable
       data-id={item.id}
+      style={{
+        "--color": item.color,
+      }}
       {...props}
     >
-      <div className="avatar">
-        <div className="w-8 rounded">
-          <Image
-            src={item.image}
-            alt="item-Avatar-component"
-            width={32}
-            height={32}
-            priority
-          />
-        </div>
-      </div>
       <div>
         <div className="font-bold text-md text-base-content leading-tight mb-2 text-pretty">
           {item.title}

@@ -10,7 +10,7 @@
   outline-offset: 0.25rem;
   outline-color: transparent;
   background-color: var(--color);
-  animation: render 0.5s ease;
+  /* animation: render 0.5s ease; */
 }
 
 @keyframes render {

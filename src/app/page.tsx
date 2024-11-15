@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <div className={"p-4 w-full h-full"}>
-      <div className={"max-w-5xl mx-auto relative"}>
+      <div className={"max-w-5xl mx-auto relative h-full"}>
         <div className="absolute bottom-12 right-0 pointer-events-none drop-shadow-lg">
           <svg
             width="200"
@@ -57,7 +57,7 @@ export default function Home() {
             </defs>
           </svg>
         </div>
-        <div className="relative z-10 flex justify-between">
+        <div className="relative z-10 flex justify-between items-center h-full">
           <List data={data} />
         </div>
       </div>
